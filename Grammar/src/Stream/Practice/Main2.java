@@ -29,9 +29,10 @@ public class Main2 {
 
         MyFunction f3 = Ex.getMyFunction();
 
+        System.out.println("Test");
         f1.run();
         f2.run();
         f3.run();
-        
+
     }
 }
