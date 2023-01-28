@@ -31,7 +31,9 @@ public class Main2 {
 
         System.out.println("Test");
         f1.run();
+        System.out.println("Test");
         f2.run();
+        System.out.println("Test");
         f3.run();
 
     }
