@@ -37,11 +37,16 @@ public class Calculator {
     }
 
     // 공백 단위로 나누기
-//     public String[] seperate(String str){
-//        String[] seperateString = str.split(" "); // 공백으로 나누기
-//         int length = seperateString.length;
-//         return seperateString;
-//    }
+     public String[] seperate(String str){
+        String[] seperateString = str.split(" "); // 공백으로 나누기
+         return seperateString;
+    }
+
+
+    public int toInt(String str){
+        return Integer.parseInt(str);
+    }
+
 
     //문자를 숫자로 바꾸기
     public int toInt(String[] str){
@@ -50,7 +55,7 @@ public class Calculator {
 
     public int calculateString(String str){ // String 배열이 들어온다.
 
-        String[] seperateString = str.split(" "); //공백 단위로 나누기
+        String[] seperateString = seperate(str); // 메소드
         int length = seperateString.length; // split한 문자의 길이
 
         int firstnum = 0, lastnum =0;
@@ -59,10 +64,12 @@ public class Calculator {
 
             // String str = "2 + 3 * 4 / 2";
             if(i==0){
-                firstnum = Integer.parseInt(seperateString[i]);
+//                firstnum = Integer.parseInt(seperateString[i]);
+                firstnum = toInt(seperateString[i]);
             }
 
-            lastnum  = Integer.parseInt(seperateString[i+2]);
+//            lastnum  = Integer.parseInt(seperateString[i+2]);
+            lastnum =toInt(seperateString[i+2]);
 
             System.out.println("앞의 숫자 " + firstnum);
             System.out.println("뒤의 숫자 " +lastnum);
