@@ -1,6 +1,10 @@
 package Calcurator;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.stream.Stream;
 
 public class Baseball {
     /*
@@ -12,99 +16,79 @@ public class Baseball {
     이 같은 과정을 반복해 컴퓨터가 선택한 3개의 숫자를 모두 맞히면 게임이 종료된다.
     게임을 종료한 후 게임을 다시 시작하거나 완전히 종료할 수 있다.
      */
-    private String answer;
-    protected int ball = 0;
-    protected int strike = 0;
+    public static void main(String[] args) {
 
-    public Baseball(String answer) throws Exception {
-        if (!validateLength(answer))
-            throw new Exception("적어도 3자리 이상의 길이를 입력해 주십시오.");
+        Scanner scanner = new Scanner(System.in);
 
-        this.answer = answer;
+        String str = scanner.nextLine(); // 문자열 입력
+//        int[] split = split(str);
+        int[] answer = Answer(); // 정답 출력
+
+        System.out.println(str); // 문제 맞추기 출력
+
+        int[] split = Split(str); // 문제를 int형 배열로 쪼개면?
+
     }
 
-    private boolean validateLength(String answer) {
-        return answer != null && answer.length() >= 3;
+    public static int[] Answer(){
+
+        Set<Integer> set = new HashSet<>(); //HashSet생성
+
+        while (set.size() < 3){ // 3보다는 작게 반복문으로 만든다.
+            set.add((int)(Math.random() * 8) + 1); // 랜덤 함수로 0~8 생성 후 +1을 하여 1~9 의 수를 생성한다.
+        }
+        /*
+         Stream().mapToInt(Integer::intValue).toArray();를 통해 리스트를 모두 int 타입의 값으로 바꾸어 int[] 배열로 바꿀 수 있다.
+         */
+        int [] answer = set.stream().mapToInt(Integer::intValue).toArray();
+        System.out.println("정답지 "  + Arrays.toString(answer)); // 정답 출력
+        return answer;
     }
 
-    public boolean strike(String input) throws Exception {
-        if (answer.length() != input.length())
-            throw new Exception("입력한 값의 길이와 정답의 길이가 다릅니다.");
 
-        resetStatus();
+    public static int [] Split(String str){
+//        String [] toInt = new String[str.length()]; // int 배열로 변환
+//        int[] intArr = Stream.of(toInt).mapToInt(Integer::parseInt).toArray();
+        int[] intSplit = Stream.of(str.split("")).mapToInt(Integer::parseInt).toArray(); //자바 String 숫자를 자릿수별 int 배열로 분할
+        System.out.println(Arrays.toString(intSplit));
+        return intSplit;
+    }
 
-        if (answer.equals(input)) {
-            strike = answer.length();
-            return true;
+    public static int [] baseballCheck(int[] intSplit , int [] answer ){
+
+        int [] check =new int [2];
+        // 체크
+        for(int i=0;i<3;i++){
+            checkBallAndStrike(intSplit, answer, i);
         }
 
-        calc(input);
-
-        return false;
     }
 
-    private void resetStatus() {
-        ball = 0;
-        strike = 0;
-    }
+    private static void checkBallAndStrike(int[] intSplit, int[] answer, int i) {
+        int strike=0; int ball=0;
 
-    public void calc(String input) {
-        for(int i=0; i<input.length(); i++) {
-            calcStrikeAndBall(input.charAt(i), i);
+        if (ckeckStrike(intSplit, answer, i)==true){
+            strike ++;
         }
-    }
-
-    private void calcStrikeAndBall(char input, int index) {
-        if(calcStrike(input, index)) {
-            strike++;
-            return;
+        if(checkBall(intSplit, answer, i)==true){
+            ball ++;
         }
 
-        if(calcBall(input, index)) {
-            ball++;
-            return;
+    }
+
+    private static boolean checkBall(int[] intSplit, int[] answer, int i) {
+        boolean ballTrue = false;
+        for (int a = 0; a < 3; a++) {
+            if (intSplit[i] == answer[a]) {
+                ballTrue = intSplit[i] != answer[i];
+            }
         }
+        return ballTrue;
     }
 
-    private boolean calcStrike(char input, int index) {
-        return equals(input, answer.charAt(index));
+    private static boolean ckeckStrike(int[] intSplit, int[] answer, int i) {
+        boolean strikeTrue = intSplit[i] == answer[i];
+        return strikeTrue;
     }
-
-    private boolean equals(char c1, int c2) {
-        return c1 == c2;
-    }
-
-    private boolean calcBall(char input, int index) {
-        return Stream.of(remains(index).split(""))
-                .map(s -> s.charAt(0))
-                .filter(c -> c == input)
-                .count() > 0;
-    }
-
-    private String remains(int index) {
-        return answer.substring(0, index) + answer.substring(index + 1);
-    }
-
-    public String getStatus() {
-        StringBuilder sb = new StringBuilder();
-
-        if(ball == answer.length())
-            return "포볼";
-
-        if(strike == answer.length())
-            return String.format("%d개의 숫자를 모두 맞히셨습니다! 게임 종료", strike);
-
-        if(ball > 0)
-            sb.append(ball + "볼 ");
-
-        if(strike > 0)
-            sb.append(strike + "스트라이크");
-
-        if(sb.length() <= 0)
-            return "낫싱";
-
-        return sb.toString();
-    }
-
 }
 
