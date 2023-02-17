@@ -62,6 +62,7 @@ public class Baseball {
             checkBallAndStrike(intSplit, answer, i);
         }
 
+        return check;
     }
 
     private static void checkBallAndStrike(int[] intSplit, int[] answer, int i) {
@@ -90,5 +91,6 @@ public class Baseball {
         boolean strikeTrue = intSplit[i] == answer[i];
         return strikeTrue;
     }
+
 }
 
