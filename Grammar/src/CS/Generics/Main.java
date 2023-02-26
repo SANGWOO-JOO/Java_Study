@@ -1,8 +1,6 @@
-package Generics;
+package CS.Generics;
 
-import java.util.ArrayList;
-
-  class GenericClass<T>{
+class GenericClass<T>{
 
     T ob;
 

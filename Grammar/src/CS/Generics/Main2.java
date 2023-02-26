@@ -1,6 +1,5 @@
-package Generics;
+package CS.Generics;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 

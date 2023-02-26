@@ -1,6 +1,4 @@
-package Generics;
-
-import org.w3c.dom.ls.LSOutput;
+package CS.Generics;
 
 import java.util.ArrayList;
 
